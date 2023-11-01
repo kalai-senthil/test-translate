@@ -51,7 +51,7 @@
         const inp = document.querySelector("input")
         const card = document.querySelector(".card")
         btn.addEventListener("click", (e) => {
-            const newNode = document.createElement("p")
+            const newNode = document.createElement("span")
             newNode.append(document.createTextNode(inp.value))
             card.append(newNode)
         })
