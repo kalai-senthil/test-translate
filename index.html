@@ -30,7 +30,7 @@
 </head>
 
 <body>
- <div class="card">
+    <div class="card">
         <input type="text" placeholder="Add text">
         <button>Add</button>
         <h1>Translatation</h1>
@@ -47,15 +47,8 @@
             Aldus PageMaker including versions of Lorem Ipsum.</p>
         <span>Checking........</span>
     </div>
-    <script>
-        const btn = document.querySelector("button")
-        const inp = document.querySelector("input")
-        const card = document.querySelector(".card")
-        btn.addEventListener("click", (e) => {
-            const newNode = document.createElement("span")
-            newNode.append(document.createTextNode(inp.value))
-            card.append(newNode)
-        })
+    <script src="./main.js">
+
     </script>
 </body>
 
