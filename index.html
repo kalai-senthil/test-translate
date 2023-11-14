@@ -62,6 +62,7 @@
         <span>Checking........</span>
     </div>
     <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div>
     <script>
         const btn = document.querySelector("button")
         const inp = document.querySelector("input")
@@ -76,12 +77,14 @@
     <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-auth-compat.js"></script>
+
     <script>
         // Import the functions you need from the SDKs you need
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
         // Your web app's Firebase configuration
+
         const firebaseConfig = {
             apiKey: "AIzaSyAUPnEKpcVpEZyF17WLqR6RA6xEUX9VVHo",
             authDomain: "remainder-12352.firebaseapp.com",
@@ -90,17 +93,36 @@
             messagingSenderId: "1087981444280",
             appId: "1:1087981444280:web:6a6e8da6ec822ac7ee284d"
         };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        // Initialize the FirebaseUI Widget using Firebase.
-        var ui = new firebaseui.auth.AuthUI(firebase.auth());
-        ui.start('#firebaseui-auth-container', {
+        var uiConfig = {
+            callbacks: {
+                signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+                    console.log(authResult);
+                    // User successfully signed in.
+                    // Return type determines whether we continue the redirect automatically
+                    // or whether we leave that to developer to handle.
+                    return true;
+                },
+                uiShown: function () {
+                    // The widget is rendered.
+                    // Hide the loader.
+                    document.getElementById('loader').style.display = 'none';
+                }
+            },
+            signInFlow: 'popup',
+            signInSuccessUrl: window.location,
             signInOptions: [
+                // Leave the lines as is for the providers you want to offer your users.
                 firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             ],
-            // Other config options...
-        });
+        };
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        firebase.auth().onAuthStateChanged((ss) => {
+            console.log(ss);
+        })
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        ui.start('#firebaseui-auth-container', uiConfig);
     </script>
 </body>
 
