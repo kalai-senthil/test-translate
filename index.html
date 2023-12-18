@@ -41,9 +41,16 @@
 
         }
     </style>
+    <script>
+        function get() {
+            fetch("https://example.com")
+        }
+        console.log(document.referrer);
+    </script>
 </head>
 
 <body>
+    <button onclick="get()">Fetch</button>
     <div class="card">
         <input type="text" placeholder="Add text">
         <button>Add</button>
@@ -63,6 +70,30 @@
     </div>
     <div id="firebaseui-auth-container"></div>
     <div id="loader">Loading...</div>
+    <script type='text/javascript'>
+        //if ('serviceWorker' in navigator) {
+        // navigator.serviceWorker.register("/atiuttam/scripts/worker.js",{scope:'/'})
+        //    .then(registration => {
+        //      console.log('Service Worker registered with scope:', registration.scope);
+        //})
+        // .catch(error => {
+        //   console.error('Service Worker registration failed:', error);
+        //});
+        //}
+        const { fetch: originalFetch } = window;
+        window.fetch = async (...args) => {
+            let [resource, config] = args;
+
+            // request interceptor starts
+            console.log(args)
+            // request interceptor ends
+
+            const response = await originalFetch(resource, config);
+
+            // response interceptor here
+            return response;
+        };
+    </script>
     <script>
         const btn = document.querySelector("button")
         const inp = document.querySelector("input")
